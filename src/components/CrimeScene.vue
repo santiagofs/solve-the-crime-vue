@@ -16,28 +16,38 @@
 </template>
 
 <script>
-import {getEmptyRooms, buildStartMatrix, applyRule, checkUniqueness} from '@/crime-scene.helpers'
+import {
+  getEmptyRooms,
+  // buildStartMatrix,
+  applyRule,
+  checkUniqueness
+} from '@/crime-scene.helpers'
 
 import CrimeSceneRoom from '@/components/CrimeSceneRoom'
+import { Level, Scenario } from '../models'
 
 export default {
   name: 'CrimeScene',
   components: { CrimeSceneRoom },
+  props: {
+    level: {type: Level, default: null}
+  },
   data() {
     return {
-      elements: buildStartMatrix(1)
+      scenario: new Scenario(this.level)
     }
   },
   computed: {
     grid() {
       console.log('the grid')
-      const rooms = getEmptyRooms(1)
-      this.elements.forEach(e => {
-        e.matrix.forEach(p => {
-          if (p.enabled) rooms[p.y][p.x].push(e.name)
-        })
-      })
-      return rooms
+      // const rooms = getEmptyRooms(1)
+      // this.elements.forEach(e => {
+      //   e.matrix.forEach(p => {
+      //     if (p.enabled) rooms[p.y][p.x].push(e.name)
+      //   })
+      // })
+      // return rooms
+      return []
     },
     rules() {
       return [
