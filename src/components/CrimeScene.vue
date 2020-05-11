@@ -9,7 +9,7 @@
     </table>
     <h1>{{isUnique}}</h1>
     <button @click="createRule">Create Rule</button>
-
+    <button @click="createRules">Create Rules</button>
     <ul>
       <li v-for="(rule, ndx) in scenario.solution.rules" :key="ndx" @click="applyRule(rule)">
         {{rule}}
@@ -61,6 +61,9 @@ export default {
     createRule() {
       this.scenario.solution.createRule()
       this.scenario.solution.applyRules(false)
+    },
+    createRules() {
+      this.scenario.solution.createRules()
     }
   }
 }

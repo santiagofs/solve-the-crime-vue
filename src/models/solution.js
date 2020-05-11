@@ -3,38 +3,61 @@ import { Rule } from './rule'
 
 export class Solution {
 
-  constructor(items, boardSize) {
-    this.items = items
+  constructor(items) {
+
+    // generate a random solution
     this.solution = Object.keys(items).reduce((prev, itemName) => {
       prev[itemName] = _.sample(items[itemName])
       return prev
     }, {})
-    console.log('solution', this.solution)
 
+    // create the rules using copy of the items
+    this.items = {... items }
     this.rules = []
+    this.unsolvedItems = Object.keys(items)
     this.isSolved = false
-    this.boardSize = boardSize
+    this.createRules()
+
+    // once we have the rules, let's reinit the items and the solution status
+    this.items = {... items }
+    this.unsolvedItems = Object.keys(items)
+    this.isSolved = false
   }
 
   itemsNames () {
     return Object.keys(this.items)
   }
 
+  _checkItemSolved(item) {
+    if (this.items[item].length === 1) {
+      _.pull(this.unsolvedItems, item)
+    }
+    this.isSolved = this.unsolvedItems.length === 0
+  }
+
   _createRule() {
     let rule = null
-    // get an item that does not have a unique position in the grid
+    // get any unsolved item from the solution
+    const A = _.sample(this.unsolvedItems)
+    // get any other item
+    const B = _.sample(_.pull(this.itemsNames(), A))
 
-    const A = _.sample(this.itemsNames())
-    const B = _.sample(_.pull(this.itemsNames(),A))
-
+    // create the rule
     rule = new Rule({name: A, room: this.solution[A]}, {name: B, room: this.solution[B]})
+    // if the rule makes any changes, we are ok, if not, recursively create the rule again
     return this.applyRule(rule, true) ? rule : this._createRule()
   }
   createRule() {
-    if (this.isSolved) {
-      return false
-    }
+    if (this.isSolved)  return false
     this.rules.push(this._createRule())
+  }
+  createRules() {
+    let i = 0
+    do {
+      i++
+      this.createRule()
+      this.applyRules()
+    } while (!this.isSolved && (i < 1000))
   }
 
   _reltiveCondition(posA, posB, distance, axis) {
@@ -59,30 +82,40 @@ export class Solution {
     return ret
   }
 
-  applyRule(rule, test = false) {
+  applyRule(rule) {
     let items = {... this.items}
-
     items = this._applyRule(items, rule)
     const changed = (this.items[rule.A].length !== items[rule.A].length) || (this.items[rule.B].length !== items[rule.B].length)
-    if (!test) this.items = items
+    this._checkItemSolved(rule.A)
+    this._checkItemSolved(rule.B)
+
+    this.items = items
     return changed
   }
 
-  applyRules(test = false) {
-
+  applyRules() {
     let i = 0
     let changed = false
     do {
       i++
       changed = false
       this.rules.forEach(rule => {
-        changed = changed || this.applyRule(rule, test)
+        changed = changed || this.applyRule(rule)
       })
-      console.log(changed, i)
-    } while(changed && i < 10)
+    } while (changed && (i < 1000))
   }
 
-  itemHasRoom(itemName, coords) {
-    return _.some(this.items[itemName], coords)
+  hint() {
+    let i = 0
+    let changed = false
+    do {
+      i++
+      const rule = _.sample(this.rules)
+      changed = this.applyRule(rule)
+    } while (!changed && (i < 1000))
+
   }
+  // itemHasRoom(itemName, coords) {
+  //   return _.some(this.items[itemName], coords)
+  // }
 }
