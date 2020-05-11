@@ -10,4 +10,5 @@ export class Room {
   removeItem(collectionName, itemName) {
     this.collections[collectionName].removeItem(itemName)
   }
+
 }

@@ -1,5 +1,5 @@
 import { Item, Collection } from '../../models/'
-console.log(Item, Collection)
+
 const items = [
   new Item('K1'),
   new Item('K2'),
