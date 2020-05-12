@@ -10,15 +10,13 @@
     <h1>{{isUnique}}</h1>
     <button @click="createRule">Create Rule</button>
     <button @click="createRules">Create Rules</button>
+    <button @click="hint">Hint</button>
     <ul>
       <li v-for="(rule, ndx) in scenario.solution.rules" :key="ndx" @click="applyRule(rule)">
         {{rule}}
       </li>
     </ul>
-    <!-- <button @click="applyRule(0)">Rule 0</button>
-    <button @click="applyRule(1)">Rule 1</button>
-    <button @click="applyRule(2)">Rule 2</button>
-    <button @click="applyRule(3)">Rule 3</button> -->
+
   </div>
 </template>
 
@@ -64,6 +62,9 @@ export default {
     },
     createRules() {
       this.scenario.solution.createRules()
+    },
+    hint() {
+      this.scenario.solution.hint()
     }
   }
 }

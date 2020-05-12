@@ -108,14 +108,15 @@ export class Solution {
   hint() {
     let i = 0
     let changed = false
+    const rules = _.shuffle(this.rules)
     do {
-      i++
-      const rule = _.sample(this.rules)
+      const rule = rules[i]
       changed = this.applyRule(rule)
-    } while (!changed && (i < 1000))
+      i++
+    } while (!changed && (i < rules.length))
 
   }
-  // itemHasRoom(itemName, coords) {
-  //   return _.some(this.items[itemName], coords)
-  // }
+  itemHasRoom(itemName, coords) {
+    return _.some(this.items[itemName], coords)
+  }
 }
