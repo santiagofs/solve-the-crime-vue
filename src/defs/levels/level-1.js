@@ -1,9 +1,9 @@
-import { victims, weapons } from '../collections'
+import { villains, weapons } from '../collections'
 import { Level } from '../../models'
 
 
 const level =  new Level({
-  collections: [victims, weapons],
+  collections: [villains, weapons],
   itemsPerCollection: 4,
 })
 

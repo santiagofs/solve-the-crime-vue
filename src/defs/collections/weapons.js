@@ -1,11 +1,11 @@
 import { Item, Collection } from '../../models/'
 
 const items = [
-  new Item('W1'),
-  new Item('W2'),
-  new Item('W3'),
-  new Item('W4'),
-  new Item('W5'),
-  new Item('W6')
+  new Item('axe', 'weapons/axe.svg'),
+  new Item('bomb', 'weapons/bomb.svg'),
+  new Item('dynamite', 'weapons/dynamite.svg'),
+  new Item('granade', 'weapons/granade.svg'),
+  new Item('poison', 'weapons/poison.svg'),
+  new Item('trap', 'weapons/trap.svg')
 ]
 export default new Collection('weapons', items)

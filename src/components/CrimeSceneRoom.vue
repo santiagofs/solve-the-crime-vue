@@ -2,16 +2,20 @@
   <div class="sc-room">
     <!-- <div>{{room.floorNumber}}, {{room.roomNumber}}</div> -->
     <div class="sc-room__collection"  v-for="(collection, ndx) in collections" :key="ndx">
-      <span v-for="item in collection" :key="item.name" :class="{'is-active': item.isHere}">{{item.name}}</span>
+      <span v-for="item in collection" :key="item.name" :class="{'is-active': item.isHere}" class="sc-room__collection-item">
+        <icon :src="item.icon" />
+      </span>
+
     </div>
   </div>
 </template>
 <script>
 import _ from 'lodash'
-
+import Icon from './Icon'
 export default {
   name: 'CrimeSceneRoom',
   props: ['room', 'solution'],
+  components: {Icon},
   computed: {
     collections() {
       const coords = {room: this.room.roomNumber, floor: this.room.floorNumber}
@@ -36,6 +40,11 @@ export default {
     display: flex;
     flex-direction: column;
 
+    &-item {
+      border: 1px solid #fafafa;
+      padding: 5px;
+      margin: 5px;
+    }
     .is-active {
       border: 1px solid #f33;
       color: #f66

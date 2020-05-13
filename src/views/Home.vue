@@ -8,7 +8,7 @@
 // @ is an alias to /src
 import CrimeScene from '@/components/CrimeScene.vue'
 
-import {level1} from '../defs/levels'
+import {level2} from '../defs/levels'
 export default {
   name: 'home',
   components: {
@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      level: level1
+      level: level2
     }
   }
 }

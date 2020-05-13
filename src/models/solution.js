@@ -1,9 +1,30 @@
 import _ from 'lodash'
-import { Rule } from './rule'
+import { Room, Rule } from './'
 
 export class Solution {
 
-  constructor(items) {
+  constructor(level) {
+    this.level = level
+
+
+    const itemNames = level.getItemsNames()
+    const items = itemNames.reduce((item, name) => {
+      item[name] = []
+      return item
+    }, {})
+
+    this.rooms = []
+    for (let f = 0; f < level.floors; f++) {
+      this.rooms[f] = []
+      for (let r = 0; r < level.roomsPerFloor; r++) {
+        const room = new Room(f, r, level.getCollections())
+        this.rooms[f][r] = room
+        itemNames.forEach(name => {
+          items[name].push({floor: f, room: r})
+        })
+      }
+    }
+
 
     // generate a random solution
     this.solution = Object.keys(items).reduce((prev, itemName) => {
@@ -43,7 +64,7 @@ export class Solution {
     const B = _.sample(_.pull(this.itemsNames(), A))
 
     // create the rule
-    rule = new Rule({name: A, room: this.solution[A]}, {name: B, room: this.solution[B]})
+    rule = new Rule({name: A, room: this.solution[A], item: this.level.getItem(A)}, {name: B, room: this.solution[B], item: this.level.getItem(B)})
     // if the rule makes any changes, we are ok, if not, recursively create the rule again
     return this.applyRule(rule, true) ? rule : this._createRule()
   }
