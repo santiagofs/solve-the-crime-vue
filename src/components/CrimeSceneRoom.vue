@@ -5,7 +5,6 @@
       <span v-for="item in collection" :key="item.name" :class="{'is-active': item.isHere}" class="sc-room__collection-item">
         <icon :src="item.icon" />
       </span>
-
     </div>
   </div>
 </template>
